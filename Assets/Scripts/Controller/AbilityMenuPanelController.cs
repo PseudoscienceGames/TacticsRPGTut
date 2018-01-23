@@ -11,7 +11,7 @@ public class AbilityMenuPanelController : MonoBehaviour
 	const int MenuCount = 4;
 
 	[SerializeField] GameObject entryPrefab;
-	[SerializeField] Text titlePrefab;
+	[SerializeField] Text titleLabel;
 	[SerializeField] Panel panel;
 	[SerializeField] GameObject canvas;
 	List<AbilityMenuEntry> menuEntries = new List<AbilityMenuEntry>(MenuCount);
@@ -108,5 +108,28 @@ public class AbilityMenuPanelController : MonoBehaviour
 		}
 		SetSelection(0);
 		TogglePos(ShowKey);
+	}
+
+	public void SetLocked(int index, bool value)
+	{
+		if (index < 0 || index >= menuEntries.Count)
+			return;
+
+		menuEntries[index].IsLocked = value;
+		if (value && selection == index)
+			Next();
+	}
+
+	public void Hide()
+	{
+		Tweener t = TogglePos(HideKey);
+		t.easingControl.completedEvent += delegate (object sender, System.EventArgs e)
+		{
+			if (panel.CurrentPosition == panel[HideKey])
+			{
+				Clear();
+				canvas.SetActive(false);
+			}
+		};
 	}
 }
