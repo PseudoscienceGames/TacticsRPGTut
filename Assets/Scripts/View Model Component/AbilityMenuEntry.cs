@@ -44,7 +44,7 @@ public class AbilityMenuEntry : MonoBehaviour
 		get { return state; }
 		set
 		{
-			if (state != value)
+			if (state == value)
 				return;
 			state = value;
 
